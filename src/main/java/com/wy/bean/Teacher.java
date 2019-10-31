@@ -6,7 +6,7 @@ public class Teacher {
 	private String name;
 	private String course;
 	//private Date birth;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
