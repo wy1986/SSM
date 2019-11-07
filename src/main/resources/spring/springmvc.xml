@@ -26,6 +26,13 @@
 			</list>
 		</property>
 	</bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*"/>
+			<bean class="com.wy.interceptor.LoginIntercepor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 	<mvc:default-servlet-handler />
 
