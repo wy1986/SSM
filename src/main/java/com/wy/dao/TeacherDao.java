@@ -2,6 +2,8 @@ package com.wy.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.wy.bean.Teacher;
 
 public interface TeacherDao {
@@ -15,5 +17,7 @@ public interface TeacherDao {
 	public void updateTeacher(Teacher teacher);
 	
 	public void deleteTeacher(Integer id);
+	
+	public ArrayList<Teacher> dynamicSelect(@Param("selectedItems")ArrayList<String> selectedItems,@Param("teacher")Teacher teacher);
 
 }

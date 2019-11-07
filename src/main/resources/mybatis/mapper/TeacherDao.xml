@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
     
     <insert id="addTeacher" parameterType="com.wy.bean.Teacher">
-    	insert into teacher(name,course) value(#{name},#{course})
+    	insert into teacher(name,course,birth) value(#{name},#{course},#{birth})
     </insert>
     
     <update id="updateTeacher" parameterType="com.wy.bean.Teacher">
@@ -28,7 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				name = #{name},
 	    	</if>
 	    	<if test="course !=null and !course.equals(&quot;&quot;)">
-	    		course=#{course}
+	    		course=#{course},
+	    	</if>
+	    	<if test="birth !=null and !birth.equals(&quot;&quot;)">
+	    		birth=#{birth}
 	    	</if>
     	</set>
     	<where>
@@ -39,4 +42,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteTeacher">
     	delete from teacher where id = #{id}
     </delete>
+    
+    <select id="dynamicSelect" resultType="com.wy.bean.Teacher">
+    	select 
+    		<foreach collection="selectedItems" item="item" separator="," >
+    			${item}
+    		</foreach>
+    	from teacher
+    	<where>
+    		<if test="teacher.id !=null">
+    			id=#{teacher.id}
+    		</if>
+    		<if test="teacher.name !=null">
+				and name=#{teacher.name}    		
+    		</if>
+    		<if test="teacher.course !=null">
+    			and course = #{teacher.course}
+    		</if>
+    	</where>
+    </select>
 </mapper>

@@ -2,9 +2,13 @@ package com.wy.controller;
 
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +39,6 @@ public class TeacherController {
 	public String getTeachers(Model model) {
 		ArrayList<Teacher> teachers = teacherDaoImpl.getTeachers();
 		model.addAttribute("teachers", teachers);
-		model.addAttribute("a", "a");
 		return "showTeachers";
 	}
 
@@ -49,20 +52,31 @@ public class TeacherController {
 	}
 	
 	@RequestMapping(value = "/teacher", method = RequestMethod.POST)
-	public String addOrUpdateTeacher(@RequestParam("id") String id,@RequestParam("name") String name,@RequestParam("course") String course) {
-		Teacher teacher = new Teacher();
-		System.out.println(name);
-		if (id.equals("")) {
-			teacher.setName(name);
-			teacher.setCourse(course);
-			teacherDaoImpl.addTeacher(teacher);
-		} else {
-			teacher.setId(Integer.parseInt(id));
-			teacher.setCourse(course);
-			teacher.setName(name);
-			teacherDaoImpl.updateTeacher(teacher);
+	//public String addOrUpdateTeacher(@RequestParam("id") String id,@Valid @RequestParam("name") String name,BindingResult result,@RequestParam("course") String course,@RequestParam("birth") Date birth) {
+	public String addOrUpdateTeacher(@Valid Teacher teacher,BindingResult result,ModelMap modelMap) {	
+	//Teacher teacher = new Teacher();
+		//if (teacher.getId().equals("")) {
+		if (!result.hasErrors()) {
+			if (teacher.getId() == null) {
+				// teacher.setName(name);
+				// teacher.setCourse(course);
+				// teacher.setBirth(birth);
+				teacherDaoImpl.addTeacher(teacher);
+			} else {
+				// teacher.setId(Integer.parseInt(id));
+				// teacher.setCourse(course);
+				// teacher.setName(name);
+				// teacher.setBirth(birth);
+				teacherDaoImpl.updateTeacher(teacher);
+			}
+			return "redirect:/getTeachers";
 		}
-		return "redirect:/getTeachers";
+		else {
+			ArrayList<Course> courses = new ArrayList<Course>();
+			courses = courseDaoImpl.getCourses();
+			modelMap.addAttribute("courses", courses);
+			return "addTeacher";
+		}
 	}
 	
 	@RequestMapping(value="teacher/{id}",method = RequestMethod.GET)
@@ -81,6 +95,25 @@ public class TeacherController {
 	{
 		teacherDaoImpl.deleteTeacher(id);
 		return "redirect:/getTeachers";
+	}
+	
+	@RequestMapping(value="dynamicSelect")
+	//public String dynamicSelect(Teacher teacher,Model model)
+	public String dynamicSelect(Model model)
+	{
+		Teacher teacher = new Teacher();
+		//teacher.setId(2);
+		teacher.setCourse("Chinese");
+		teacher.setName("王3");
+		ArrayList<String> selectedItems = new ArrayList<String>();
+		//selectedItems.add("course");
+		selectedItems.add("name");
+		selectedItems.add("id");
+		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
+		teacherList = teacherDaoImpl.dynamicSelect(selectedItems,teacher);
+		model.addAttribute("teacherList", teacherList);
+		
+		return "showSelectedTeachers";
 	}
 
 }

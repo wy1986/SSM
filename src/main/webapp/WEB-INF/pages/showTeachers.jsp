@@ -19,6 +19,7 @@
 			<th>ID</th>
 			<th>Name</th>
 			<th>Course</th>
+			<th>Birthday</th>
 			<th>EDIT</th>
 			<th>DELETE</th>
 		</tr>
@@ -27,6 +28,7 @@
 				<td>${teacher.id}</td>
 				<td>${teacher.name}</td>
 				<td>${teacher.course}</td>
+				<td>${teacher.birth}</td>
 				<td>
 					<a href="${path }/teacher/${teacher.id}">EDIT</a>
 				</td>
@@ -36,7 +38,8 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="teacher">添加教师</a>
+	<a href="teacher">添加教师</a><br/>
+	<a href="dynamicSelect">检索</a>
 	<form:form id="form" action="${path}/teacher/${teacher.id}" method="post">
 		<input type="hidden" name="_method" value="DELETE" />
 		<input type="submit" value="删除" />
