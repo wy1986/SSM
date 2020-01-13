@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <% pageContext.setAttribute("path", request.getContextPath()); %>
 <html>
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-	<h1>教师列表</h1>
+	<h1><spring:message code="message.title" /> </h1>
 	<table border="1">
 		<tr>
 			<th>ID</th>

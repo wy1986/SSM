@@ -1,6 +1,7 @@
 package com.wy.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -37,7 +38,14 @@ public class TeacherController {
 
 	@RequestMapping("/getTeachers")
 	public String getTeachers(Model model) {
-		ArrayList<Teacher> teachers = teacherDaoImpl.getTeachers();
+//		ArrayList<Teacher> teachers = teacherDaoImpl.getTeachers();
+		Teacher teacher = new Teacher();
+		teacher.setId(1);
+		teacher.setBirth(new Date());
+		teacher.setName("teacher1");
+		teacher.setCourse("English");
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		teachers.add(teacher);
 		model.addAttribute("teachers", teachers);
 		return "showTeachers";
 	}

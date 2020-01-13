@@ -18,7 +18,7 @@ public class LoginController {
 			session.setAttribute("username", "wang");
 			return "redirect:/getTeachers";
 		}
-		return "toLogin";
+		return "redirect:/toLogin";
 	}
 	
 	@RequestMapping("/toLogin")
